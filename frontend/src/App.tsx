@@ -1,7 +1,7 @@
 import { ConnectButton, useCurrentAccount, useSignAndExecuteTransaction, useDisconnectWallet, useSuiClientQuery } from '@mysten/dapp-kit';
 import { Transaction } from '@mysten/sui/transactions';
 import { useState, useEffect } from 'react';
-import { MapPin, Send, Loader2, CheckCircle2, Wallet, LogOut, Coffee, Droplets, Home } from 'lucide-react';
+import { MapPin, Loader2, CheckCircle2, LogOut, Coffee, Droplets, Home } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 import { getGoogleOAuthUrl, parseJwtFromUrl, getSuiAddressFromJwt } from './utils/zkLogin';
@@ -68,13 +68,40 @@ function App() {
     setAppState('departure');
   };
 
-  const handlePourWater = () => {
+  const handlePourWater = async () => {
+    if (!userAddress) return;
     setIsPouring(true);
-    // Simulation for MVP: In a real app, this would call a Sponsored Transaction API
-    setTimeout(() => {
-      setStatus({ type: 'success', message: '湧き水を汲みました！ (0.05 SUI チャージ - Simulation)' });
+    setStatus(null);
+
+    try {
+      const response = await fetch('/api/faucet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address: userAddress }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setStatus({ type: 'success', message: '給水完了！水筒に0.05 SUI入りました！' });
+      } else {
+        throw new Error(data.error || '給水に失敗しました');
+      }
+    } catch (error: any) {
+      console.error('Faucet error:', error);
+      // Fallback for local development without API (Simulation)
+      if (error.message.includes('Unexpected token') || error.message.includes('404')) {
+        console.warn('API not found, falling back to simulation');
+        setTimeout(() => {
+          setStatus({ type: 'success', message: '給水完了！(Simulation Mode)' });
+          setIsPouring(false);
+        }, 1000);
+        return;
+      }
+      setStatus({ type: 'error', message: `給水失敗: ${error.message}` });
+    } finally {
       setIsPouring(false);
-    }, 1500);
+    }
   };
 
   const handleMintSnack = () => {
