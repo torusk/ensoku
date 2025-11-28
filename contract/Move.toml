@@ -1,5 +1,5 @@
 [package]
-name = "locus"
+name = "ensoku"
 version = "0.1.0"
 edition = "2024"
 
@@ -7,4 +7,4 @@ edition = "2024"
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
 
 [addresses]
-locus = "0x0"
+ensoku = "0x0"

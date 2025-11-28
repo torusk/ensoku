@@ -8,7 +8,7 @@ import { getGoogleOAuthUrl, parseJwtFromUrl, getSuiAddressFromJwt } from './util
 
 // Configuration
 const PACKAGE_ID = '0x7fe284ce69c9bd0cbd43637b3a5bb961b71df27eb66ac40efe90b179bfa6df6c';
-const MODULE_NAME = 'locus';
+const MODULE_NAME = 'ensoku';
 const CLOCK_OBJECT_ID = '0x6';
 
 function App() {
@@ -59,7 +59,7 @@ function App() {
     if (zkLoginAddress) {
       // Simulated Check In for zkLogin
       setTimeout(() => {
-        setStatus({ type: 'success', message: '東京でのチェックインに成功しました！ (zkLogin Simulation)' });
+        setStatus({ type: 'success', message: '遠足スポットに到着しました！ (zkLogin Simulation)' });
         setIsCheckingIn(false);
       }, 1000);
       return;
@@ -79,7 +79,7 @@ function App() {
       {
         onSuccess: (result) => {
           console.log('Check-in success:', result);
-          setStatus({ type: 'success', message: '東京でのチェックインに成功しました！' });
+          setStatus({ type: 'success', message: '遠足スポットに到着しました！' });
           setIsCheckingIn(false);
         },
         onError: (error) => {
@@ -142,10 +142,10 @@ function App() {
       <main className="w-full max-w-md z-10 space-y-8">
         {/* Header */}
         <div className="text-center space-y-2">
-          <h1 className="text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700">
-            Locus
+          <h1 className="text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-green-600 to-teal-500">
+            Ensoku
           </h1>
-          <p className="text-muted-foreground">分散型位置証明</p>
+          <p className="text-muted-foreground">みんなで遠足！分散型証明</p>
         </div>
 
         {/* Wallet Connection */}
@@ -253,14 +253,14 @@ function App() {
                 <h2 className="text-lg font-semibold">現在地</h2>
               </div>
               <p className="text-sm text-muted-foreground">
-                <span className="text-slate-900 font-medium">東京</span> での存在をオンチェーンで証明します。
+                <span className="text-slate-900 font-medium">遠足スポット</span> に到着したことを証明します！
               </p>
               <button
                 onClick={handleCheckIn}
                 disabled={isCheckingIn}
-                className="btn-primary w-full flex items-center justify-center gap-2"
+                className="btn-primary w-full flex items-center justify-center gap-2 bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 border-0"
               >
-                {isCheckingIn ? <Loader2 className="w-5 h-5 animate-spin" /> : 'チェックイン'}
+                {isCheckingIn ? <Loader2 className="w-5 h-5 animate-spin" /> : '遠足！'}
               </button>
             </motion.div>
 

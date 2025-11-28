@@ -1,4 +1,4 @@
-module locus::locus;
+module ensoku::ensoku;
 
 use std::string::String;
 use sui::clock::Clock;
